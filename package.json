@@ -1,0 +1,36 @@
+{
+  "name": "nymph",
+  "version": "0.1.0",
+  "description": "Aegis Framework NodeJS Flavor",
+  "main": "index.ts",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "start": "npm run build:live",
+    "build:live": "ts-node ./index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AegisFramework/Nymph.git"
+  },
+  "keywords": [
+    "aegis",
+    "framework",
+    "node",
+    "nymph"
+  ],
+  "author": "Diego Islas Ocampo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AegisFramework/Nymph/issues"
+  },
+  "homepage": "https://github.com/AegisFramework/Nymph#readme",
+  "devDependencies": {
+    "@types/node": "^8.0.20",
+    "typescript": "^2.4.2"
+  },
+  "dependencies": {
+    "nodemon": "^1.11.0"
+  }
+}
