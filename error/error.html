@@ -2,7 +2,7 @@
 <!--Aegis Framework | MIT License | http://www.aegisframework.com/ -->
 <html lang="en">
 	<head>
-		<title>Error Title</title>
+		<title>{{title}}</title>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 		<style>
@@ -58,11 +58,9 @@
 
 	<body>
 		<div>
-			<h1>Error Title</h1>
-			<h2>Error Description</h2>
-			<div>
-				<p><b>Error Details:</b> Some details</p>
-			</div>
+			<h1>{{title}}</h1>
+			<h2>{{message}}</h2>
+			{{description}}
 		</div>
 	</body>
 </html>

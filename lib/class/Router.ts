@@ -6,6 +6,8 @@
 
 import Route from "./Route";
 import FileSystem from "./FileSystem";
+import HTTP from "./HTTP"
+
 const path = require('path');
 
 interface Routes {
@@ -17,6 +19,16 @@ export default class Router {
 	public static domain: string;
 
 	public static port: number = 3000;
+
+	public static request: any;
+
+	public static response: string = "";
+
+	public static responseStatus: string = "OK";
+
+	public static responseType: string = "text/html";
+
+	public static responseCode: number = 200;
 
 	private static routes: Routes = {
 		"ANY": [],
@@ -146,22 +158,23 @@ export default class Router {
 	public static listen () {
 		var http = require("http");
 		var server = http.createServer(function(request: any, response: any) {
+			Router.request = request;
 
 			let found_route: Route | null = Router.findRoute(request.method, request.url);
+			let responseContent = "";
 			if (found_route !== null) {
-				response.writeHead(200, {"Content-Type": "text/html"});
-				response.write (found_route.run ());
-				response.end();
+				Router.response = found_route.run ();
 			} else {
 				if (FileSystem.exists(__dirname + "/../../" + request.url)) {
-					response.writeHead(200, {"Content-Type": Router.mime (path.extname (request.url))});
-					response.write (FileSystem.read (__dirname + "/../../" + request.url));
+					Router.response = FileSystem.read (__dirname + "/../../" + request.url);
+					Router.responseType = Router.mime (path.extname (request.url));
 				} else {
-					response.writeHead(404, {"Content-Type": "text/html"});
-					//HTTP::error(404);
+					Router.response = HTTP.error (404);
 				}
-				response.end ();
 			}
+			response.writeHead(Router.responseCode, Router.responseStatus, {"Content-Type": Router.responseType});
+			response.write (Router.response);
+			response.end ();
 		});
 		server.listen (Router.port);
 	}

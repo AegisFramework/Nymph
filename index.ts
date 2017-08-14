@@ -18,6 +18,13 @@ import main from "./lib/templates/main"
 
 
 /**
+ * Debugging logs are shown on errors by default, to disable them,
+ * uncomment the following line.
+ */
+
+//Aegis.debugging = false;
+
+/**
  * Register Routes
  *
  * Register all the custom routes for your site, the callback function
