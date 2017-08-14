@@ -24,8 +24,8 @@ export default class FileSystem {
 		return null;
 	}
 
-	private static listDir (path: string) {
-
+	public static listDir (path: string) {
+		return fs.readdirSync (path);
 	}
 
 	public static read (file: string): string {

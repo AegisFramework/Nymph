@@ -13,7 +13,10 @@ interface Routes {
 }
 
 export default class Router {
+
 	public static domain: string;
+
+	public static port: number = 3000;
 
 	private static routes: Routes = {
 		"ANY": [],
@@ -150,20 +153,17 @@ export default class Router {
 				response.write (found_route.run ());
 				response.end();
 			} else {
-				console.log (__dirname + "/../../" + request.url);
 				if (FileSystem.exists(__dirname + "/../../" + request.url)) {
 					response.writeHead(200, {"Content-Type": Router.mime (path.extname (request.url))});
 					response.write (FileSystem.read (__dirname + "/../../" + request.url));
 				} else {
-					response.writeHead(404, {"Content-Type": Router.mime (path.extname (request.url))});
-					console.log(request);
+					response.writeHead(404, {"Content-Type": "text/html"});
+					//HTTP::error(404);
 				}
-
-				response.end();
-				//HTTP::error(404);
+				response.end ();
 			}
 		});
-		server.listen(3030);
+		server.listen (Router.port);
 	}
 
 }
