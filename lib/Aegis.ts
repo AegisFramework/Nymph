@@ -10,8 +10,8 @@ export default class Aegis {
 	public static debugging: boolean = true;
 
 	// Aegis Flavor
-	public static flavor: string = "Ikaros";
+	public static flavor: string = "Nymph";
 
 	// Flavor Version
-	public static version: string = "0.1.2";
+	public static version: string = "0.1.0";
 }

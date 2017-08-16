@@ -48,34 +48,34 @@ export default class HTTP {
 			Router.responseCode = code;
             switch (code) {
                 case 400:
-					Router.responseStatus = "400 Bad Request";
+					Router.responseStatus = "Bad Request";
 					error.set ("title", "Bad Request");
 					error.set ("message", "The request is invalid.");
 					break;
 				case 401:
-					Router.responseStatus = "401 Unauthorized";
+					Router.responseStatus = "Unauthorized";
 					error.set ("title", "Unauthorized Access");
 					error.set ("message", "Autentication is Required.");
 					break;
 				case 403:
-					Router.responseStatus = "403 Forbidden";
+					Router.responseStatus = "Forbidden";
 					error.set ("title", "Forbidden");
 					error.set ("message", "Forbidden access, clearance neeeded.");
 					break;
 				case 404:
-					Router.responseStatus = "404 Not Found";
+					Router.responseStatus = "Not Found";
 					error.set ("title", "Page Not Found");
 					error.set ("message", "Sorry, the page you are trying to access does not exist.");
 					break;
 
                 case 409:
-					Router.responseStatus = "409 Conflict";
+					Router.responseStatus = "Conflict";
 					error.set ("title", "Conflict");
 					error.set ("message", "A request or file conflict ocurred, please try again.");
 					break;
 
 				case 500:
-					Router.responseStatus = "500 Internal Server Error";
+					Router.responseStatus = "Internal Server Error";
 					error.set ("title", "Server Error");
 					error.set ("message", "Sorry, it seems there's been an error. Please try later.");
 					break;
@@ -88,6 +88,6 @@ export default class HTTP {
 			}
 			error.set ("description", description);
 			error.compile ();
-			return error.toString ();
+			Router.response = error.toString ();
         }
 }

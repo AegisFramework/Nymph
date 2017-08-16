@@ -161,15 +161,19 @@ export default class Router {
 			Router.request = request;
 
 			let found_route: Route | null = Router.findRoute(request.method, request.url);
+
 			let responseContent = "";
 			if (found_route !== null) {
+				Router.responseType = "text/html";
+				Router.responseCode = 200;
 				Router.response = found_route.run ();
 			} else {
-				if (FileSystem.exists(__dirname + "/../../" + request.url)) {
-					Router.response = FileSystem.read (__dirname + "/../../" + request.url);
+				if (FileSystem.exists(__dirname + "/../.." + request.url)) {
+					Router.response = FileSystem.read (__dirname + "/../.." + request.url);
+					Router.responseCode = 200;
 					Router.responseType = Router.mime (path.extname (request.url));
 				} else {
-					Router.response = HTTP.error (404);
+					HTTP.error (404);
 				}
 			}
 			response.writeHead(Router.responseCode, Router.responseStatus, {"Content-Type": Router.responseType});
