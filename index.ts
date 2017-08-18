@@ -30,10 +30,6 @@ import main from "./lib/templates/main"
 // Connect to the Database
 DB.connect (Config.get ("DB_User"), Config.get ("DB_Password"), Config.get ("DB"));
 
-DB.query ("SELECT * FROM Provider;").then ((results) => {
-	console.log (results);
-});
-
 /**
  * Register Routes
  *
