@@ -6,35 +6,30 @@
 
 import FileSystem from './FileSystem'
 
-interface Properties {
-	[index: string]: any
-};
 
 export default class Template {
 	protected page: string | null;
 	protected template: string | null;
 	protected content: string;
 
-	protected properties: Properties = {
-		"_title": "",
-		"_keywords": [],
-		"_description": "",
-		"_twitter": "",
-		"_google": "",
-		"_shareimage": "",
-		"_author": "",
-		"_domain": "",
-		"_route": "",
-		"_fullRoute": "",
-		"data": []
-	}
+	protected _title: String = "";
+	protected _keywords: String[] = [];
+	protected _description: String = "";
+	protected _twitter: String = "";
+	protected _google: String = "";
+	protected _shareimage: String = "";
+	protected _author: String = "";
+	protected _domain: String = "";
+	protected _route: String = "";
+	protected _fullRoute: String = "";
+	protected data = {};
 
 	public set (key: string, value: any) {
-		this.properties [key] = value;
+		(<any>this)[key] = value;
 	}
 
 	public get (key: string): any {
-		return this.properties [key];
+		return (<any>this)[key];
 	}
 
 	public setPage(page: string) {
@@ -77,13 +72,13 @@ export default class Template {
 			for (let match of matches) {
 				let matchName = match.trim ().replace (/\}\}|\{\{/g, "");
 
-				if (typeof (<any>this).properties[matchName] === "function") {
-					this.content = this.content.replace (match, (<any>this).properties[matchName].apply (null, []));
-				} else if (typeof (<any>this).properties[matchName] !== "undefined") {
-						this.content = this.content.replace (match, (<any>this).properties[matchName]);
-				} else if (typeof (<any>this).properties["data"] !== "undefined") {
-					if (typeof (<any>this).properties["data"][matchName] !== "undefined") {
-						this.content = this.content.replace (match, (<any>this).properties["data"][matchName]);
+				if (typeof (<any>this)[matchName] === "function") {
+					this.content = this.content.replace (match, (<any>this)[matchName].apply (this, []));
+				} else if (typeof (<any>this)[matchName] !== "undefined") {
+						this.content = this.content.replace (match, (<any>this)[matchName]);
+				} else if (typeof (<any>this)["data"] !== "undefined") {
+					if (typeof (<any>this)["data"][matchName] !== "undefined") {
+						this.content = this.content.replace (match, (<any>this)["data"][matchName]);
 					}
 				}
 
@@ -125,10 +120,10 @@ export default class Template {
 				let content = "";
 				let objects;
 
-				if (typeof this.properties[list] === "function") {
-					objects = this.properties[list].apply (null, []);
-				} else if (typeof this.properties[list] !== "undefined") {
-					objects = this.properties[list];
+				if (typeof (<any>this)[list] === "function") {
+					objects = (<any>this)[list].apply (null, []);
+				} else if (typeof (<any>this)[list] !== "undefined") {
+					objects = (<any>this)[list];
 				} else {
 					return null;
 				}

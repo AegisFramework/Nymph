@@ -14,6 +14,8 @@
 
 import Aegis from "./lib/Aegis";
 import Router from "./lib/class/Router"
+import DB from "./lib/class/DB"
+import Config from "./lib/class/Config"
 import main from "./lib/templates/main"
 
 
@@ -23,6 +25,14 @@ import main from "./lib/templates/main"
  */
 
 //Aegis.debugging = false;
+
+
+// Connect to the Database
+DB.connect (Config.get ("DB_User"), Config.get ("DB_Password"), Config.get ("DB"));
+
+DB.query ("SELECT * FROM Provider;").then ((results) => {
+	console.log (results);
+});
 
 /**
  * Register Routes

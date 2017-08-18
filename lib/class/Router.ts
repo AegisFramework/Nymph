@@ -14,6 +14,10 @@ interface Routes {
 	[index: string]: Route[]
 }
 
+interface json {
+	[index: string]: any
+}
+
 export default class Router {
 
 	public static domain: string;
@@ -23,6 +27,8 @@ export default class Router {
 	public static request: any;
 
 	public static response: string = "";
+
+	public static requestData: json = {};
 
 	public static responseStatus: string = "OK";
 
@@ -160,6 +166,23 @@ export default class Router {
 		var server = http.createServer(function(request: any, response: any) {
 			Router.request = request;
 
+			if (request.method == 'POST') {
+				var requestData = '';
+
+				request.on('data', function (data: any) {
+					requestData += data;
+				});
+
+				request.on('end', function () {
+					try {
+						Router.requestData = JSON.parse(requestData);
+					} catch (e) {
+						Router.responseCode = 500;
+						HTTP.error (500, 0, e.message, e.fileName, e.lineNumber);
+					}
+				});
+			}
+
 			let found_route: Route | null = Router.findRoute(request.method, request.url);
 
 			let responseContent = "";
@@ -167,6 +190,7 @@ export default class Router {
 				Router.responseType = "text/html";
 				Router.responseCode = 200;
 				Router.response = found_route.run ();
+
 			} else {
 				if (FileSystem.exists(__dirname + "/../.." + request.url)) {
 					Router.response = FileSystem.read (__dirname + "/../.." + request.url);

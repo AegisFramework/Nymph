@@ -26,7 +26,7 @@ export default class HTTP {
         }
     }
 
-	public static error(code: number, number = null, message = null, file = null, line = null){
+	public static error(code: number, number: null | number = null, message: null | number = null, file: null | number = null, line: null | number = null){
 			HTTP.type ("html");
             let error = new Template();
             error.setContent(FileSystem.read(`${__dirname}/../../error/error.html`));
