@@ -1,24 +1,34 @@
-# Aegis Framework: Oregano
+# Aegis Framework: Nymph
 
-Oregano is a simple HTML5, CSS3 and JavaScript template, this flavor features just the front-end technologies of Aegis instead of adding a Backend as the other flavors. It will allow you allow you to create your website quickly, featuring the cutting edge technologies.
+Aegis is a simple but powerful framework for both new and experienced developers that aims to be as minimal as it can get while keeping the features you need to create an amazing site or application.
 
-It also features many properties to make your website mobile, social friendly and even a progressive web app.
+Nymph is the Node JS flavor of Aegis.
 
-Visit the [WebPage](http://www.aegisframework.com/)
+## Requirements:
+* NPM
+* Node JS
 
-## Quick Start:
+## Getting Started
 
-1. Download the latest release from the [Releases Page](https://github.com/AegisFramework/Oregano/releases/latest).
-2. Unzip the File.
-3. Place your content on the index.html file and create as many files as you need.
-4. Place your custom style on the main.css file.
-5. Place your custom javascript on the main.js file.
+### 1. Get the latest Release
+You can find the latest release in the [releases page](https://github.com/AegisFramework/Nymph/releases)
 
-For more information read the [documentation](http://www.aegisframework.com/documentation.html).
+#### 2. Install the dependencies
+Once you've downloaded the latest release, unzip it and go to the directory on your terminal. To install the needed dependencies just do it through npm:
 
-## Attributions:
-[Font Awesome](http://fontawesome.io) by Dave Gandy
-[Animate CSS](http://daneden.github.io/animate.css/) by Daniel Eden
+```
+npm install
+```
 
-## License
-Aegis is an Open Source project released under the [MIT license](https://github.com/HyuchiaDiego/AegisTemplate/blob/master/LICENSE).
+This will download everything you need.
+
+### 3. Run your project
+Running Nymph is as simple as:
+
+```
+npm run start
+```
+
+This will start the server in the port 3000.
+
+### 4. Start Coding!
