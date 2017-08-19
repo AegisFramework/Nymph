@@ -14,9 +14,9 @@
 
 import Aegis from "./lib/Aegis";
 import Router from "./lib/class/Router"
-import DB from "./lib/class/DB"
-import Config from "./lib/class/Config"
 import main from "./lib/templates/main"
+// import DB from "./lib/class/DB"
+// import Config from "./lib/class/Config"
 
 
 /**
@@ -28,7 +28,7 @@ import main from "./lib/templates/main"
 
 
 // Connect to the Database
-DB.connect (Config.get ("DB_User"), Config.get ("DB_Password"), Config.get ("DB"));
+// DB.connect (Config.get ("DB_User"), Config.get ("DB_Password"), Config.get ("DB"));
 
 /**
  * Register Routes

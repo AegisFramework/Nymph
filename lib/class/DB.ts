@@ -7,6 +7,7 @@ export default class DB {
 	private static host: String;
 	private static pass: String;
 	private static user: String;
+	public static last: number;
 	public static connection: any;
 
 	public static connect (user: String, pass: String, database: String, host: String = "localhost", charset: String = "utf8") {
@@ -24,12 +25,24 @@ export default class DB {
 
 	}
 
-	public static query (query: String) {
+	public static name () {
+		return this.database;
+	}
+
+	public static prepare (query: String, array: any) {
+		return 	mysql.format(query, array);
+	}
+
+	public static query (query: String, array: any) {
 		return new Promise(function (resolve: any, reject: any) {
-			DB.connection.query(query, function (error: any, results: any, fields: any) {
+			let preparedQuery = DB.prepare (query, array);
+			DB.connection.query(preparedQuery, function (error: any, results: any, fields: any) {
 				if (error) {
 					reject (error);
 				} else {
+					if (typeof results.insertedId !== "undefined") {
+						DB.last = results.insertedId;
+					}
 					resolve (results);
 				}
 			});
