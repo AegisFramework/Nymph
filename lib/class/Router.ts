@@ -7,6 +7,7 @@
 import Route from "./Route";
 import FileSystem from "./FileSystem";
 import HTTP from "./HTTP"
+import Collection from "./Collection"
 
 const path = require('path');
 
@@ -28,7 +29,9 @@ export default class Router {
 
 	public static response: string = "";
 
-	public static requestData: json = {};
+	public static requestData: Collection;
+
+	public static requestMethod: string;
 
 	public static responseStatus: string = "OK";
 
@@ -165,8 +168,9 @@ export default class Router {
 		var http = require("http");
 		var server = http.createServer(function(request: any, response: any) {
 			Router.request = request;
+			Router.requestMethod = request.method;
 
-			if (request.method == 'POST') {
+			if (request.method == 'POST' || request.method == 'PUT' || request.method == 'DELETE') {
 				var requestData = '';
 
 				request.on('data', function (data: any) {
@@ -175,7 +179,7 @@ export default class Router {
 
 				request.on('end', function () {
 					try {
-						Router.requestData = JSON.parse(requestData);
+						Router.requestData = new Collection (JSON.parse(requestData));
 					} catch (e) {
 						Router.responseCode = 500;
 						HTTP.error (500, 0, e.message, e.fileName, e.lineNumber);

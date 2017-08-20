@@ -14,9 +14,10 @@
 
 import Aegis from "./lib/Aegis";
 import Router from "./lib/class/Router"
+import Request from "./lib/class/Request"
 import main from "./lib/templates/main"
-// import DB from "./lib/class/DB"
-// import Config from "./lib/class/Config"
+import DB from "./lib/class/DB"
+import Config from "./lib/class/Config"
 
 
 /**
