@@ -27,9 +27,9 @@ export default class Router {
 
 	public static request: any;
 
-	public static response: string = "";
+	public static response: string | Promise<any> = "";
 
-	public static requestData: Collection;
+	public static requestData: Promise<any>;
 
 	public static requestMethod: string;
 
@@ -170,20 +170,24 @@ export default class Router {
 			Router.request = request;
 			Router.requestMethod = request.method;
 
+
 			if (request.method == 'POST' || request.method == 'PUT' || request.method == 'DELETE') {
-				var requestData = '';
+				Router.requestData = new Promise ((resolve, reject) => {
+					var requestData = '';
 
-				request.on('data', function (data: any) {
-					requestData += data;
-				});
+					request.on('data', function (data: any) {
+						requestData += data;
+					});
 
-				request.on('end', function () {
-					try {
-						Router.requestData = new Collection (JSON.parse(requestData));
-					} catch (e) {
-						Router.responseCode = 500;
-						HTTP.error (500, 0, e.message, e.fileName, e.lineNumber);
-					}
+					request.on('end', function () {
+						try {
+							resolve (new Collection (JSON.parse(requestData)));
+						} catch (e) {
+							Router.responseCode = 500;
+							HTTP.error (500, 0, e.message, e.fileName, e.lineNumber);
+							reject (e);
+						}
+					});
 				});
 			}
 
@@ -204,9 +208,35 @@ export default class Router {
 					HTTP.error (404);
 				}
 			}
-			response.writeHead(Router.responseCode, Router.responseStatus, {"Content-Type": Router.responseType});
-			response.write (Router.response);
-			response.end ();
+
+			if (typeof Router.response === "object") {
+				// Check if the result was a promise
+				if (typeof Router.response.then != "undefined") {
+					Router.response.then ((res: string) => {
+						response.writeHead(Router.responseCode, Router.responseStatus, {"Content-Type": Router.responseType});
+						response.write (res);
+						response.end ();
+					}).catch (() => {
+						Router.responseCode = 500;
+						HTTP.error (500);
+						response.writeHead(Router.responseCode, Router.responseStatus, {"Content-Type": Router.responseType});
+						response.write (Router.response);
+						response.end ();
+					});
+				} else {
+					Router.responseCode = 500;
+					HTTP.error (500);
+					response.writeHead(Router.responseCode, Router.responseStatus, {"Content-Type": Router.responseType});
+					response.write (Router.response);
+					response.end ();
+				}
+
+			} else {
+				response.writeHead(Router.responseCode, Router.responseStatus, {"Content-Type": Router.responseType});
+				response.write (Router.response);
+				response.end ();
+			}
+
 		});
 		server.listen (Router.port);
 	}

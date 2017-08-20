@@ -14,33 +14,36 @@ interface json {
 export default class Request {
 
 	private static getDataFrom (method: string, keys: string[] | null = null, allowEmpty: boolean = false, allowHTML: boolean = false) {
-		if (Router.requestMethod == method) {
-			if (keys != null) {
-		        let object: json = {};
-				for (let value of keys) {
+		return Router.requestData.then ((data: Collection) => {
 
-					if (Router.requestData.hasKey (value)) {
+			if (Router.requestMethod == method) {
+				if (keys != null) {
+			        let object: json = {};
+					for (let value of keys) {
 
-						if (!allowEmpty && (Router.requestData.get (value) != "" && Router.requestData.get (value) != null)) {
+						if (data.hasKey (value)) {
+
+							if (!allowEmpty && !(data.get (value) != "" && data.get (value) != null)) {
+								return null;
+							}
+
+		                    if (!allowHTML) {
+		                        object[value] = data.get (value).replace(/(<([^>]+)>)/ig,"");
+		                    } else {
+		                        object[value] = data.get (value);
+		                    }
+						} else {
 							return null;
 						}
-
-	                    if (!allowHTML) {
-	                        object[value] = Router.requestData.get (value).replace(/(<([^>]+)>)/ig,"");
-	                    } else {
-	                        object[value] = Router.requestData.get (value);
-	                    }
-					} else {
-						return null;
 					}
-				}
-				return new Collection (object);
-		    } else {
-		        return Router.requestData;
-		    }
-		} else {
-			return null;
-		}
+					return new Collection (object);
+			    } else {
+			        return data;
+			    }
+			} else {
+				return null;
+			}
+		});
 	}
 
 	public static get (keys: string[] | null = null, allowEmpty: boolean = false, allowHTML: boolean = false) {

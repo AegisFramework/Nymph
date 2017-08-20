@@ -13,12 +13,12 @@
  */
 
 import Aegis from "./lib/Aegis";
+import HTTP from "./lib/class/HTTP"
 import Router from "./lib/class/Router"
 import Request from "./lib/class/Request"
 import main from "./lib/templates/main"
 import DB from "./lib/class/DB"
 import Config from "./lib/class/Config"
-
 
 /**
  * Debugging logs are shown on errors by default, to disable them,

@@ -56,4 +56,8 @@ export default class Collection {
 		this.collection[key] = value;
 	}
 
+	public toString (): string {
+		return JSON.stringify(this.collection);
+	}
+
 }
