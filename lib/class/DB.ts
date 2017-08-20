@@ -2,15 +2,15 @@ const mysql = require('mysql');
 
 export default class DB {
 
-	private static charset: String;
-	private static database: String;
-	private static host: String;
-	private static pass: String;
-	private static user: String;
+	private static charset: string;
+	private static database: string;
+	private static host: string;
+	private static pass: string;
+	private static user: string;
 	public static last: number;
 	public static connection: any;
 
-	public static connect (user: String, pass: String, database: String, host: String = "localhost", charset: String = "utf8") {
+	public static connect (user: string, pass: string, database: string, host: string = "localhost", charset: string = "utf8") {
 		DB.host = host;
 		DB.user = user;
 		DB.pass = pass;
@@ -25,15 +25,15 @@ export default class DB {
 
 	}
 
-	public static name () {
+	public static getName (): string {
 		return this.database;
 	}
 
-	public static prepare (query: String, array: any) {
+	public static prepare (query: string, array: any) {
 		return 	mysql.format(query, array);
 	}
 
-	public static query (query: String, array: any) {
+	public static query (query: string, array: any = []) {
 		return new Promise(function (resolve: any, reject: any) {
 			let preparedQuery = DB.prepare (query, array);
 			DB.connection.query(preparedQuery, function (error: any, results: any, fields: any) {

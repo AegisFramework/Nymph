@@ -8,11 +8,11 @@ interface json {
 export default class Query {
 
 	private object: Promise<any>;
-	private query: String;
+	private query: string;
 	private bindings: any[];
 	private results: Collection;
 
-	constructor (query: String = "", bindings: any[] = [], results: any[] = []) {
+	constructor (query: string = "", bindings: any[] = [], results: any[] = []) {
 		this.query = query;
 		this.bindings = bindings;
 		this.results = new Collection (results);
@@ -193,17 +193,13 @@ export default class Query {
 		return this.append ("NOW()");
 	}
 
-	public commit () {
+	public commit (): Promise<Collection> {
 		let sth = DB.query (this.query, this.bindings);
 		this.object = sth;
-		this.object.then ((results: any) => {
+		return sth.then ((results: any) => {
 			this.results = new Collection (results);
+			return results;
 		});
-		return this;
-	}
-
-	public then (callback: (results: any) => void) {
-		this.object.then (callback);
 	}
 
 	public toString () {

@@ -1,9 +1,10 @@
-interface json {
+interface collection {
 	[key: string] : any;
+	[index: number] : any;
 }
 
 export default class Collection {
-	private collection: json;
+	private collection: collection;
 
 	constructor (collection: Object | null = null) {
 		if (collection === null) {
@@ -19,11 +20,19 @@ export default class Collection {
 		}
 	}
 
-	public object () {
+	[Symbol.iterator] () {
+		return this.collection[Symbol.iterator] ();
+	}
+
+	public first () {
+		return this.collection [0];
+	}
+
+	public object (): collection {
 		return this.collection;
 	}
 
-	public remove (index: string) {
+	public remove (index: string | number) {
 		delete this.collection[index];
 	}
 
